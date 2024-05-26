@@ -211,7 +211,7 @@ main {
     left: 30rem;
     position: fixed;
     height: 653px;
-    width: 62%;
+    width: 60%;
     display: flex;
     align-items: start;
     flex-direction: column;
@@ -322,4 +322,60 @@ main {
 
 .twitter-post .icon {
     padding: 0%;
+}
+
+
+.inputs {
+    background: rgb(226, 226, 253);
+    border: none;
+    border-radius: 10px;
+    outline-color: #00bfff;
+    padding: 12px 15px;
+    margin: 8px;
+    width: 95%;
+}
+
+
+
+button {
+    border-radius: 20px;
+    border: 1px solid #00bfff;
+    background: #00bfff;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+
+button:hover {
+    background: #87cefa;
+    border-color: #87cefa;
+    cursor: pointer;
+}
+
+.cancel{
+    border-radius: 20px;
+    border: 1px solid white;
+    background: rgb(226, 226, 253);
+    color:  #00bfff;
+    position: absolute;
+    left: 20%;
+    top: 24.5rem;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.cancel:hover {
+    background: #d5e9f6;
+    border-color: #87cefa;
+    color:  #00bfff;
+     cursor: pointer;
 }

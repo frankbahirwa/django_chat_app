@@ -1,5 +1,86 @@
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Post</button>
-</form>
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    <header>
+        <div class="home">
+            <a href="{% url "home" %}"><p class="home-text">Home</p></a>
+            <p><i class="fas fa-search"></i></p>
+        </div>
+        <div class="user">
+            <div class="user-details">
+              <span><i class="fas fa-user-circle"></i></span>
+              <div class="column">
+                {% if user.is_authenticated %}
+                <p>{{ user.username }}</p>
+                {% endif %}
+                <div class="activeness"></div>
+                <span style="font-size: medium;">online</span>
+            </div>
+            </div>
+            <div class="icons">
+                <span><i class="fas fa-link"></i></span>
+                <span><i class="fas fa-phone"></i></span>
+                <span><i class="fas fa-trash"></i></span>
+            </div>
+        </div>
+    </header>
+    <div class="sidebar">
+        <div class="tools">
+            <span><i class="fas fa-home"></i></span>
+            <span><i class="fas fa-comments"></i></span>
+            <span><i class="fas fa-cog"></i></span>
+        </div>
+        <div class="logout">
+            <span><i class="fas fa-user-circle"></i></span>
+            <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
+        </div>
+    </div>
+    <main>
+        <div class="stories-container">
+            <div class="add-story">
+                <i class="fas fa-plus-circle"></i>
+                <p>add story</p>
+            </div>
+
+
+            <div class="available-stories">
+                {% for post in posts %}
+                <div class="story">
+                    {% if post.image %}
+                    <img src="{{post.image.url}}" alt="{{post.title}}">
+                    {% endif %}
+                   <div class="posted-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span>username · 13h</span>
+                   </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="post-container">    
+         
+            <h1> Create Post </h1>
+           <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.title }}
+            {{ form.content }}
+            {{ form.image }}
+            <button type="submit"> Add Post </button>
+           </form><br>
+           <a href="{% url "home" %}"><button class="cancel"> cancel </button>
+ 
+           </div>
+        </div>
+    </main>
+</body>
+</html>
