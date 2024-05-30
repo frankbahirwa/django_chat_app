@@ -1,15 +1,85 @@
+
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Inbox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'inbox.css' %}">
 </head>
 <body>
-    <h2>Inbox</h2>
-    <p>this is your message</p>
-    <ul>
-        {% for message in received_messages %}
-        <li>{{ message.sender }}: {{ message.content }}</li>
-        {% endfor %}
-    </ul>
+    <header>
+        <div class="home">
+            <p class="home-text">Home</p>
+            <p><i class="fas fa-search"></i></p>
+        </div>
+        <div class="user">
+            <div class="user-details">
+              <span><i class="fas fa-user-circle"></i></span>
+              <div class="column">
+                {% if user.is_authenticated %}
+                <p>{{ user.username }}</p>
+                {% endif %}
+                <div class="activeness"></div>
+                <span style="font-size: medium;">online</span>
+            </div>
+            </div>
+            <div class="icons">
+                <span><i class="fas fa-link"></i></span>
+                <span><i class="fas fa-phone"></i></span>
+                <span><i class="fas fa-trash"></i></span>
+            </div>
+        </div>
+    </header>
+    <div class="sidebar">
+        <div class="tools">
+            <span><i class="fas fa-home"></i></span>
+            <a href="{% url "inbox" %}"><span><i class="fas fa-comments"></i></span></a>
+            <span><i class="fas fa-cog"></i></span>
+        </div>
+        <div class="logout">
+            <span><i class="fas fa-user-circle"></i></span>
+            <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
+        </div>
+    </div>
+    <main>
+
+    
+        <div class="container">
+            <div class="user-sidebar">
+
+                {% if users %}
+                {% for user in users %}
+               <a href="{% url "chat" user.username %}"> <div class="user">
+                    <div class="user-details">
+                        <span><i class="fas fa-user-circle"></i></span>
+                        <div class="user-info">
+                            <h4>{{ user.username }}</h4>
+                            <p>You can make a chat!</p>
+                        </div>
+                    </div>
+                    <div class="new-message"></div>
+                
+                </div></a>
+                {% endfor %}
+
+                {% else %}
+                <p> no available users in the database </P>
+
+                {% endif %}
+
+                
+                </div>
+
+            </div>
+            <div class="chat">
+                <p>select user who messaged you</p>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

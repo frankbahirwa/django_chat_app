@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'chat.css' %}">
+</head>
+<body>
+    <header>
+        <div class="home">
+            <p class="home-text">Home</p>
+            <p><i class="fas fa-search"></i></p>
+        </div>
+        <div class="user">
+            <div class="user-details">
+              <span><i class="fas fa-user-circle"></i></span>
+              <div class="column">
+                {% if user.is_authenticated %}
+                <p>{{ user.username }}</p>
+                {% endif %}
+                <div class="activeness"></div>
+                <span style="font-size: medium;">online</span>
+            </div>
+            </div>
+            <div class="icons">
+                <span><i class="fas fa-link"></i></span>
+                <span><i class="fas fa-phone"></i></span>
+                <span><i class="fas fa-trash"></i></span>
+            </div>
+        </div>
+    </header>
+    <div class="sidebar">
+        <div class="tools">
+            <span><i class="fas fa-home"></i></span>
+            <a href="{% url "inbox" %}"><span><i class="fas fa-comments"></i></span></a>
+            <span><i class="fas fa-cog"></i></span>
+        </div>
+        <div class="logout">
+            <span><i class="fas fa-user-circle"></i></span>
+            <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
+        </div>
+    </div>
+    <main>
+        <div class="container">
+            <div class="user-sidebar">
+                {% if users %}
+                    {% for user in users %}
+                        <a href="{% url 'chat' user.username %}">
+                            <div class="user">
+                                <div class="user-details">
+                                    <span><i class="fas fa-user-circle"></i></span>
+                                    <div class="user-info">
+                                        <h4>{{ user.username }}</h4>
+                                        <p>You can make a chat!</p>
+                                    </div>
+                                </div>
+                                <div class="new-message"></div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>No available users in the database</p>
+                {% endif %}
+            </div>
+            <div class="chat">
+                <div class="chat-header">
+                    <span><i class="fas fa-user-circle"></i></span>
+                    <div class="chat-info">
+                        <h4>{{ the_user.username }}</h4>
+                        <p>{{ the_user.email }}</p>
+                    </div>
+                </div>
+                <div class="chat-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.sender == request.user %}
+                                <div class="message sent">
+                                    <p>{{ message.content }}</p>
+                                </div>
+                            {% else %}
+                                <div class="message received">
+                                    <p>{{ message.content }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <form class="chat-footer" method='post'>
+                    {% csrf_token %}
+                    <input type="text" name="content" placeholder="Type something...">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
