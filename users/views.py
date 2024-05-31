@@ -3,14 +3,17 @@ from .forms import UserForm, userlogin
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from posts.models import Posts
+from posts.models import *
 
 
 
-@login_required(login_url='login')
+
 def home(request):
+    profiles = Personal_Profile.objects.filter(user = request.user).latest('-created_at')
     posts = Posts.objects.all().order_by('-created_at')
-    return render(request, "users/home.html" , {'posts':posts})
+    stories = Add_Story.objects.all().order_by('-created_at')
+    return render(request, "users/home.html" , {'posts':posts,'stories':stories,'profiles':profiles})
+
 
 
 def userslogin(request):

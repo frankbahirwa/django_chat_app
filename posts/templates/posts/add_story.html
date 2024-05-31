@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Media</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        #imageCanvas {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        .controls {
+            margin-top: 10px;
+        }
+        #textInput {
+            margin-top: 10px;
+            width: 100%;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>add the story</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="controls">
+                {% comment %} <button type="button" id="addTextBtn"></button> {% endcomment %}
+                <button type="button" id="blurBtn">Blur</button>
+            </div>
+            <div class="preview" id="previewContainer">
+                <canvas id="imageCanvas" style="width: 4cm; height: 4cm;"></canvas>
+                <audio id="audioPlayer" controls style="display: none;"></audio>
+            </div>
+            <textarea id="textInput" name="text" placeholder="Write text here..." style="display: none;"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('id_image').addEventListener('change', handleImageUpload);
+        document.getElementById('id_audio').addEventListener('change', handleAudioUpload);
+        document.getElementById('blurBtn').addEventListener('click', applyBlur);
+        {% comment %} document.getElementById('addTextBtn').addEventListener('click', addText); {% endcomment %}
+
+        const canvas = document.getElementById('imageCanvas');
+        const ctx = canvas.getContext('2d');
+        let image = new Image();
+        let audio = new Audio();
+        let blurApplied = false;
+        let textInputVisible = false;
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image.src = e.target.result;
+                    image.onload = function() {
+                        canvas.width = image.width;
+                        canvas.height = image.height;
+                        ctx.drawImage(image, 0, 0);
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleAudioUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    audio.src = e.target.result;
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    audioPlayer.src = e.target.result;
+                    audioPlayer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function applyBlur() {
+            if (!blurApplied) {
+                ctx.filter = 'blur(5px)';
+            } else {
+                ctx.filter = 'none';
+            }
+            ctx.drawImage(image, 0, 0);
+            blurApplied = !blurApplied;
+        }
+
+        {% comment %} function addText() {
+            const textInput = document.getElementById('textInput');
+            if (!textInputVisible) {
+                textInput.style.display = 'block';
+                textInput.addEventListener('input', function() {
+                    ctx.drawImage(image, 0, 0);
+                    ctx.font = '30px Arial';
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(textInput.value, 50, 50);
+                });
+            } else {
+                textInput.style.display = 'none';
+            }
+            textInputVisible = !textInputVisible;
+        } {% endcomment %}
+    </script>
+</body>
+</html>

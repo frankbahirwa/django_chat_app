@@ -3,8 +3,10 @@
     height: 82vh;
     width: 87%;
     margin-left: 8%;
-}
+    position: fixed;
+    height:7cm;
 
+}
 
 
 .container .user-sidebar {
@@ -13,8 +15,10 @@
     flex-direction: column;
     position: fixed;
     margin: 10px;
+    overflow: scroll;
     scrollbar-color: rgb(96, 96, 96) transparent; /* thumb color, track color */
     scrollbar-width: thin; /* or auto */
+
 }
 
 .container .user {

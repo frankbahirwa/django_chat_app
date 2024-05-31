@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vime</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'homes.css' %}">
 </head>
 <body>
     <header>
@@ -36,32 +36,41 @@
     </header>
     <div class="sidebar">
         <div class="tools">
-            <span><i class="fas fa-home"></i></span>
+            <a href="{% url "home" %}"><span><i class="fas fa-home"></i></span></a> 
             <a href="{% url "inbox" %}"><span><i class="fas fa-comments"></i></span></a>
-            <span><i class="fas fa-cog"></i></span>
         </div>
         <div class="logout">
-            <span><i class="fas fa-user-circle"></i></span>
-            <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
-        </div>
+
+            {% if profiles.image %}
+            <a href="{% url 'profile' %}"><span><img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br><br>
+
+            {% else %}
+            <a href="{% url 'profile' %}"><span><i class="fas fa-user-circle"></i></span></a><br><br>
+            {% endif %}
+
+        <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
     </div>
+</div>
     <main>
         <div class="stories-container">
             <div class="add-story">
-                <i class="fas fa-plus-circle"></i>
+               <a href="{% url "story" %}"><i class="fas fa-plus-circle" style="color:black;"> </i></a> 
                 <p>add story</p>
             </div>
 
 
+
             <div class="available-stories">
-                {% for post in posts %}
+                {% for story in stories %}
                 <div class="story">
-                    {% if post.image %}
-                    <img src="{{post.image.url}}" alt="{{post.title}}">
+                    {% if story.image %}
+                    <img src="{{ story.image.url }}" alt="{{ post.title }}">
                     {% endif %}
                    <div class="posted-user">
                     <i class="fas fa-user-circle"></i>
-                    <span>username · 13h</span>
+                    
+                    <span>{{ story.user }} · {{story.created_at|timesince}}</span>
+                    
                    </div>
                 </div>
                 {% endfor %}
@@ -104,31 +113,17 @@
                         <div class="footer-item">
                             <span><i class="fas fa-heart"></i></span>3.2K
                         </div>
-                        <div class="footer-item">
-                            <span><i class="fas fa-comments"></i></span> 8K
-                        </div>
+                        <a href="/add-post/post/{{post.id}}">
+                            <div class="footer-item">
+                                <span><i class="fas fa-comments"></i>{{post.comments.count}}</span>
+                            </div>
+                        </a>
                         <div class="footer-item">
                             <span><i class="fas fa-share"></i></span> 18M
                         </div>
                     </div>
                 </div>
                 {% endfor %}
-
-
-
-
-
-
-
-                
-
-
-
-
-
-
-
-
            </div>
         </div>
     </main>
