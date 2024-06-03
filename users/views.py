@@ -9,7 +9,7 @@ from posts.models import *
 
 
 def home(request):
-    profiles = Personal_Profile.objects.filter(user = request.user).latest('-created_at')
+    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
     posts = Posts.objects.all().order_by('-created_at')
     stories = Add_Story.objects.all().order_by('-created_at')
     return render(request, "users/home.html" , {'posts':posts,'stories':stories,'profiles':profiles})

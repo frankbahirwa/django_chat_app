@@ -17,7 +17,11 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['author','post','content','attachment']
+        fields = ['content','attachment']
+        widgets = {
+            'content': forms.Textarea(attrs=({'class': 'inputs','placeholder':'Type Your Comment'})),
+            'attachment': forms.FileInput(attrs=({'label':''}))
+        }
 
 class Story_Form(forms.ModelForm):
     class Meta:

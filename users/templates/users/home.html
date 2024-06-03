@@ -18,7 +18,11 @@
         </div>
         <div class="user">
             <div class="user-details">
-              <span><i class="fas fa-user-circle"></i></span>
+                {% if profiles.image %}
+                <a href="#"><span><img style="width:1.2cm;height:1.2cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br><br>
+                {% else %}
+                <a href="#"><span ><i class="fas fa-user-circle"></i></span></a><br><br>
+                {% endif %}
               <div class="column">
                 {% if user.is_authenticated %}
                 <p>{{ user.username }}</p>
@@ -27,17 +31,18 @@
                 <span style="font-size: medium;">online</span>
             </div>
             </div>
-            <div class="icons">
+            {% comment %} <div class="icons">
                 <span><i class="fas fa-link"></i></span>
                 <span><i class="fas fa-phone"></i></span>
                 <span><i class="fas fa-trash"></i></span>
-            </div>
+            </div> {% endcomment %}
         </div>
     </header>
     <div class="sidebar">
         <div class="tools">
-            <a href="{% url "home" %}"><span><i class="fas fa-home"></i></span></a> 
-            <a href="{% url "inbox" %}"><span><i class="fas fa-comments"></i></span></a>
+            <a href="{% url "home" %}" style="background-color: white;border-radius: 50%;height: 35px;"> <img src="{% static "icons/home-button.png" %}" alt="" style="height:1cm;width:1cm;color:white;"></span></a> <br><br>
+            <a href="{% url "inbox" %}"><img src="{% static "icons/messenger.png" %}" alt="" style="height:1cm;width:1cm;"></span></a><br><br>
+            <a href="#"><img src="{% static "icons/notification-bell.png" %}" alt="" style="height:1cm;width:1cm;"></span></a>
         </div>
         <div class="logout">
 
@@ -45,16 +50,16 @@
             <a href="{% url 'profile' %}"><span><img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br><br>
 
             {% else %}
-            <a href="{% url 'profile' %}"><span><i class="fas fa-user-circle"></i></span></a><br><br>
+            <a href="{% url 'profile' %}"><span><i class="fas fa-user-circle" style="font-size:30px"></i></span></a><br><br>
             {% endif %}
 
-        <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt"></i></span></a>
+        <a href="{% url "logout" %}"><span><i class="fas fa-sign-out-alt" style="font-size:30px;"></i></span></a>
     </div>
 </div>
     <main>
         <div class="stories-container">
             <div class="add-story">
-               <a href="{% url "story" %}"><i class="fas fa-plus-circle" style="color:black;"> </i></a> 
+               <a href="{% url "story" %}"><img src="{% static "icons/stories.png" %}" style ="width:1.5cm;height:1.5cm;" alt=""> </i></a> 
                 <p>add story</p>
             </div>
 
@@ -77,9 +82,9 @@
             </div>
         </div>
         <div class="post-container">
-           <div class="post-header">
+           <div class="post-header" style="margin-top:-1cm;">
             <p class="home-text">Posts</p>
-            <a href="{% url "add-post" %}"><button class="add-post">Add post</button></a>
+            <a href="{% url "add-post" %}"><button style="background:none;border:none;" class="add-postt"><img src="{% static "icons/plus.png" %}" style="height:1.5cm;width:1.5cm;" alt=""></button></a>
            </div>
 
            {% for post in posts %}
@@ -98,7 +103,6 @@
                     </div>
 
                     <div class="content">
-                        <p>{{post.title}}</p>
                         <div class="quoted-tweet">     
                             <div class="quoted-content">
                                 <p>{{post.content}}</p>
@@ -111,15 +115,15 @@
                     
                     <div class="footer">
                         <div class="footer-item">
-                            <span><i class="fas fa-heart"></i></span>3.2K
+                            <span><img src="{% static "icons/thumb-up.png" %}" style="height:30px;width:30px;" alt="">  </span> 3.2K
                         </div>
                         <a href="/add-post/post/{{post.id}}">
                             <div class="footer-item">
-                                <span><i class="fas fa-comments"></i>{{post.comments.count}}</span>
+                                <span><img src="{% static "icons/comment.png" %}" style="height:30px;width:30px;" alt=""></i>{{post.comments.count}}</span>
                             </div>
                         </a>
                         <div class="footer-item">
-                            <span><i class="fas fa-share"></i></span> 18M
+                            <span><img src="{% static "icons/share.png" %}" style="height:30px;width:30px;" alt=""></span> 18M
                         </div>
                     </div>
                 </div>

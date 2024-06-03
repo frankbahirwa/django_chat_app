@@ -1,5 +1,6 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect ,get_object_or_404
 from .forms import *
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 
@@ -19,20 +20,23 @@ def add_post(request):
         posts = Posts.objects.all().order_by('created_at')
     return render(request , 'posts/add-post.html' , {'form' : form , 'posts': posts})
 
-def post_details(request,id):
-    post = Posts.objects.get(id = id)
-    
+def post_details(request, id):
+    post = get_object_or_404(Posts, id=id)
+    comments= Comment.objects.all()
     if request.method == 'POST':
-        comment = CommentForm(request.POST)
-        if comment.is_valid():
-            comment.save(commit=False)
+        comment_form = CommentForm(request.POST, request.FILES)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
             comment.author = request.user
             comment.post = post
             comment.save()
             return redirect('home')
+        else:
+            return HttpResponse(f'Comment not added. Errors: {comment_form.errors}')
     else:
-        form = CommentForm()
-        return render(request, 'posts/post_details.html',{'post':post,'form':form})
+        comment_form = CommentForm()
+        return render(request, 'posts/post_details.html', {'post': post, 'form': comment_form,'comments':comments})
+
     
 @login_required
 def add_profile(request):

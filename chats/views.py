@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Message
+from  posts.models import *
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 
@@ -26,9 +27,10 @@ from django.http import HttpResponseRedirect
 
 @login_required
 def inbox(request):
+    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
     users = User.objects.all().reverse()
     # received_messages =
-    return render(request, 'chats/inbox.html', {'users': users})
+    return render(request, 'chats/inbox.html', {'users': users,'perofiles':profiles})
 
 
 
@@ -37,6 +39,7 @@ def inbox(request):
 def chatView(request, username):
     users = User.objects.all().reverse()
     the_user = get_object_or_404(User, username=username)
+    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
 
     if request.method == 'POST':
         content = request.POST.get('content')
@@ -48,4 +51,4 @@ def chatView(request, username):
         Q(sender=request.user, receiver=the_user) | Q(sender=the_user, receiver=request.user)
     ).order_by('timestamp')
 
-    return render(request, 'chats/chat.html', { 'users': users, 'the_user': the_user, 'messages': messages })
+    return render(request, 'chats/chat.html', { 'users': users, 'the_user': the_user, 'messages': messages ,'profiles':profiles})
