@@ -97,6 +97,13 @@ header {
     flex-direction: column;
 }
 
+.tools .active , .tools a:hover{
+    background: #00bfff;
+    padding: 10px 10px 0px 10px;
+    border-radius: 50%;
+    transition: .3s ease-in-out;
+}
+
 span {
     color: white;
 }
@@ -129,18 +136,19 @@ main {
 
 
 
-.stories-container::-webkit-scrollbar {
-    display: none;
-}
 
 .stories-container {
     height: 850px;
-    width: 30%;
+    width: 15%;
+    margin-left: 6rem;
     position: fixed;
-    overflow: scroll;
+    overflow-y: scroll;
     display: flex;
     align-items: center;
     flex-direction: column;
+    
+    scrollbar-color: rgb(96, 96, 96) transparent; /* thumb color, track color */
+    scrollbar-width: thin; /* or auto */
 }
 
 .user-who-posted span{
@@ -154,7 +162,7 @@ main {
     position: absolute;
     width: 3px;
     top: 1.3cm;
-    left: 1.6cm;
+    left: 1cm;
     height: 3px;
     border-radius: 50%;
 }
@@ -171,8 +179,12 @@ main {
     flex-direction: column;
 }
 
-.add-story i {
+
+.add-story a span {
+    box-shadow: 1px 1px 10px 1px #00bfff;
     font-size: 4rem;
+    border-radius: 60%;
+    background: linear-gradient(to left , #00bfff , #657786);
 }
 
 .available-stories {
@@ -211,28 +223,28 @@ main {
 
 
 .post-container {
-    overflow: scroll;
+    overflow-y: scroll;
     left: 30rem;
     position: fixed;
     height:880px;
-    width: 60%;
+    width: 65%;
     display: flex;
     align-items: start;
     flex-direction: column;
+    
+    scrollbar-color: rgb(96, 96, 96) transparent; /* thumb color, track color */
+    scrollbar-width: thin; /* or auto */
     margin-bottom: 2cm;
 }
 
-.post-container::-webkit-scrollbar{
-    scrollbar-color: rgb(96, 96, 96) transparent;
-    scrollbar-width: thin;
-}
+
 
 .post-header {
     display: flex;
     align-items: center;
     width: 62%;
     padding-bottom: 12px;
-    border: inset gray;
+    border: inset #00bfff;
     border-top: 0;
     border-left: 0;
     border-right: 0;
@@ -257,7 +269,7 @@ main {
     background:  rgb(46, 46, 46);
     border-radius: 10px;
     width: 100%;
-    padding: 15px;
+    padding: 0px;
 }
 
 .twitter-post .header, .twitter-post .quoted-header {
@@ -388,4 +400,63 @@ button:hover {
     border-color: #87cefa;
     color:  #00bfff;
      cursor: pointer;
+}
+
+
+
+.loader span {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    animation: blur 4s infinite;
+    margin:0.7rem;
+}
+
+@keyframes blur {
+    0% {
+        filter: blur(0);
+    }
+    25% {
+        filter: blur(1px);
+    }
+    50% {
+        filter: blur(5px);
+    }
+    75% {
+        filter: blur(1px);
+    }
+    100% {
+        filter: blur(0);
+    }
+}
+
+.loader span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loader span:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.loader span:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+.loader span:nth-child(4) {
+    animation-delay: 1s;
+}
+
+.loader span:nth-child(5) {
+    animation-delay: 1.4s;
+}
+
+.loader span:nth-child(6) {
+    animation-delay: 1.8s;
+}
+
+.menu span{
+    background: #00bfff;
+    padding: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+    border-radius: 50%;
 }
