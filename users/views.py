@@ -7,12 +7,16 @@ from posts.models import *
 
 
 
-
+@login_required(login_url='login')
 def home(request):
-    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
+    profiles = Personal_Profile.objects.all().order_by('-created_at')
     posts = Posts.objects.all().order_by('-created_at')
     stories = Add_Story.objects.all().order_by('-created_at')
     return render(request, "users/home.html" , {'posts':posts,'stories':stories,'profiles':profiles})
+
+
+def profile(request):
+    return render(request ,"users/profile.html" )
 
 
 
@@ -21,7 +25,7 @@ def userslogin(request):
     signup_form = UserForm()
     
     if request.method == 'POST':
-        if 'login' in request.POST:
+        if 'login' in request.POST: 
             login_form = userlogin(request.POST)
             if login_form.is_valid():
                 username = login_form.cleaned_data['username']

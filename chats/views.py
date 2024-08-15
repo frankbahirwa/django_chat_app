@@ -10,31 +10,6 @@ from django.http import HttpResponseRedirect
 
 
 
-# Create your views here.
-
-# @login_required(login_url='login')        # to never allow the users to access this service without loging in
-# def send_message(request):
-#     if request.method == 'POST':
-#         form = MessageForm(request.POST)
-#         if form.is_valid():
-#             message = form.save(commit=False)
-#             message.sender = request.user
-#             message.save()
-#             return redirect('inbox')
-#     else:
-#         form = MessageForm()
-#     return render(request, 'chats/send_message.html', {'form': form})   # passing the data to next page
-
-@login_required
-def inbox(request):
-    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
-    users = User.objects.all().reverse()
-    # received_messages =
-    return render(request, 'chats/inbox.html', {'users': users,'perofiles':profiles})
-
-
-
-
 @login_required
 def chatView(request, username):
     users = User.objects.all().reverse()
