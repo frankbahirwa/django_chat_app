@@ -25,7 +25,7 @@ def post_details(request, id):
     comments= Comment.objects.all()
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, request.FILES)
-        if comment_form.is_valid():
+        if  comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.author = request.user
             comment.post = post

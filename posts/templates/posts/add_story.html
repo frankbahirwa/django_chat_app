@@ -1,66 +1,263 @@
+
+{% load  static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Media</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-        }
-        #imageCanvas {
-            border: 1px solid #ccc;
-            margin-top: 20px;
-        }
-        .controls {
-            margin-top: 10px;
-        }
-        #textInput {
-            margin-top: 10px;
-            width: 100%;
-            height: 50px;
-        }
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'homes.css' %}">
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                color: #333;
+            }
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0px 10px;
+                margin-left: -2cm;
+                background-color: rgb(46, 46, 46);
+                color: #fff;
+            }
+    
+            .activeness{
+                margin-top: -20px;
+                margin-left: 10px;
+            }
+    
+            .home, .user {
+                display: flex;
+                align-items: center;
+            }
+            .home-text {
+                font-size: 1.2em;
+                margin-right: 20px;
+            }
+            .user-details {
+                display: flex;
+                align-items: center;
+            }
+            .user-details .column {
+                display: flex;
+                flex-direction: column;
+                margin-left: 10px;
+            }
+            .user-details p {
+                margin: 0;
+            }
+            .user-details .activeness {
+                width: 10px;
+                height: 10px;
+                background-color: green;
+                border-radius: 50%;
+            }
+            .icons span {
+                margin-left: 15px;
+                cursor: pointer;
+            }
+            .sidebar {
+                width: 60px;
+                height: 100vh;
+                background-color: rgb(46, 46, 46);
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 20px;
+                position: fixed;
+            }
+            .sidebar a {
+                color: #fff;
+                text-decoration: none;
+            }
+            .sidebar .tools span, .sidebar .logout span {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+                cursor: pointer;
+            }
+            main {
+                margin-left: 80px;
+                padding: 20px;
+            }
+            .stories-container, .post-container {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+            }
+            .add-story, .story {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            .add-story i, .story i {
+                font-size: 1.5em;
+                margin-right: 10px;
+                color: rgb(46, 46, 46);
+            }
+            .story img {
+                width: 3cm;
+                height: 4cm;
+                border-radius: 10%;
+                object-fit: cover;
+                margin-right: 10px;
+            }
+            .posted-user {
+                display: flex;
+                align-items: center;
+            }
+            .post-container h1 {
+                color: rgb(46, 46, 46);
+            }
+            .post-container form {
+                display: flex;
+                flex-direction: column;
+            }
+            .post-container form label {
+                margin-top: 10px;
+                font-weight: bold;
+            }
+            .post-container{
+                height: 25cm;
+                position: absolute;
+                top: 0;
+                left: 10.01cm;
+                position: fixed;
+                width: 70%;
+                background-color:whitesmoke;
+                
+            }
+            .stories-container{
+                height: 25cm;
+                position: absolute;
+                left: 0;
+                position: fixed;
+                overflow: scroll;
+                margin-left: 1.6cm;
+                background-color: rgb(46, 46, 55);
+                top: 0;
+            }
+            .post-container form input[type="text"],
+            .post-container form textarea {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-top: 5px;
+            }
+            .post-container form textarea {
+                resize: vertical;
+            }
+            .post-container form button {
+                background-color: rgb(46, 46, 46);
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .post-container form .cancel {
+                background-color: #ccc;
+                margin-left: 1cm;
+            }
+            .file-input-wrapper {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .file-input-wrapper i {
+                font-size: 1.5em;
+                margin-right: 10px;
+                color: rgb(46, 46, 46);
+            }
+            .file-input-wrapper input[type="file"] {
+                display: none;
+            }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>add the story</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div class="controls">
-                {% comment %} <button type="button" id="addTextBtn"></button> {% endcomment %}
-                <button type="button" id="blurBtn">Blur</button>
+    <header>
+        <div class="home">
+            <a href="{% url 'home' %}"><p class="home-text">Home</p></a>
+            <p><i class="fas fa-search"></i></p>
+        </div>
+        <div class="user">
+            <div class="user-details">
+                <span><i class="fas fa-user-circle"></i></span>
+                <div class="column">
+                    {% if user.is_authenticated %}
+                        <p>{{ user.username }}</p>
+                    {% endif %}
+                    <div class="activeness"></div>
+                    <span style="font-size: medium;">Online</span>
+                </div>
             </div>
-            <div class="preview" id="previewContainer">
-                <canvas id="imageCanvas" style="width: 4cm; height: 4cm;"></canvas>
-                <audio id="audioPlayer" controls style="display: none;"></audio>
+            <div class="icons">
+                <span><i class="fas fa-link"></i></span>
+                <span><i class="fas fa-phone"></i></span>
+                <span><i class="fas fa-trash"></i></span>
             </div>
-            <textarea id="textInput" name="text" placeholder="Write text here..." style="display: none;"></textarea>
-            <button type="submit">Submit</button>
-        </form>
+        </div>
+    </header>
+    <div class="sidebar">
+        <div class="tools">
+            <a href="{% url 'home' %}" style="color: white;"><span class="material-symbols-outlined">home</span></a>
+            <a href="{% url 'inbox' %}"><span class="material-symbols-outlined">maps_ugc</span></a>
+            <a href="#"><span class="material-symbols-outlined">notifications</span></a>
+        </div>
+        <div class="logout">
+            <a href="{% url 'logout' %}" style="margin-top: -7cm;" ><span><i class="fas fa-sign-out-alt"></i></span></a>
+            <a href="{% url 'profile' %}" style="margin-top: -6cm;"><span class="material-symbols-outlined" style="font-size: 30px;">
+                account_circle
+                </span></a>
+        </div>
     </div>
+    <main>
+        <div class="container">
+            <h1>Add the Story</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <div class="file-input-wrapper">
+                    <i class="fas fa-upload" onclick="document.getElementById('id_image').click();"></i>
+                    <input type="file" id="id_image" name="image">
+                </div>
+                <div class="file-input-wrapper">
+                    <i class="fas fa-upload" onclick="document.getElementById('id_audio').click();"></i>
+                    <input type="file" id="id_audio" name="audio">
+                </div>
+
+                <div class="controls">
+                    <button type="button" id="blurBtn">Blur</button>
+                </div>
+                <div class="preview" id="previewContainer">
+                    <canvas id="imageCanvas" style="width: 4cm; height: 4cm;"></canvas>
+                    <audio id="audioPlayer" controls style="display: none;"></audio>
+                </div>
+                <textarea id="textInput" name="text" placeholder="Write text here..." style="display: none;"></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
     <script>
         document.getElementById('id_image').addEventListener('change', handleImageUpload);
         document.getElementById('id_audio').addEventListener('change', handleAudioUpload);
         document.getElementById('blurBtn').addEventListener('click', applyBlur);
-        {% comment %} document.getElementById('addTextBtn').addEventListener('click', addText); {% endcomment %}
 
         const canvas = document.getElementById('imageCanvas');
         const ctx = canvas.getContext('2d');
         let image = new Image();
         let audio = new Audio();
         let blurApplied = false;
-        let textInputVisible = false;
 
         function handleImageUpload(event) {
             const file = event.target.files[0];
@@ -101,22 +298,6 @@
             ctx.drawImage(image, 0, 0);
             blurApplied = !blurApplied;
         }
-
-        {% comment %} function addText() {
-            const textInput = document.getElementById('textInput');
-            if (!textInputVisible) {
-                textInput.style.display = 'block';
-                textInput.addEventListener('input', function() {
-                    ctx.drawImage(image, 0, 0);
-                    ctx.font = '30px Arial';
-                    ctx.fillStyle = 'black';
-                    ctx.fillText(textInput.value, 50, 50);
-                });
-            } else {
-                textInput.style.display = 'none';
-            }
-            textInputVisible = !textInputVisible;
-        } {% endcomment %}
     </script>
 </body>
 </html>

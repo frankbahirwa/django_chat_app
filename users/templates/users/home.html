@@ -60,12 +60,12 @@
             <a href="{% url 'profile' %}"><span><img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br>
 
             {% else %}
-            <a href="{% url 'profile' %}"><span class="material-symbols-outlined">
+            <a href="{% url 'profile' %}"><span class="material-symbols-outlined" style="font-size: 30px;">
                 account_circle
                 </span></a>
             {% endif %}
 
-        <a href="{% url "logout" %}"><span class="material-symbols-outlined">
+        <a href="{% url "logout" %}"><span class="material-symbols-outlined" style="font-size: 30px;">
             logout
             </span></a>
     </div>
@@ -141,6 +141,7 @@
                                     add_comment
                                     </span>{{post.comments.count}}
                             </div>
+                        
                         </a>
                         <div class="footer-item">
                             <span class="material-symbols-outlined">

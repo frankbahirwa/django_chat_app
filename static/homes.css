@@ -302,7 +302,7 @@ main {
 }
 
 .twitter-post .content {
-    margin-top: 10px;
+    margin-top: -10px;
     margin-left: 5rem;
     max-width: 70%;
     
@@ -321,8 +321,10 @@ main {
 }
 
 .twitter-post .quoted-image {
-    width: 100%;
+    width: 15cm;
     border-radius: 10px;
+    margin-left: 3cm;
+    height: 13cm;
     margin-top: 10px;
 }
 

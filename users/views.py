@@ -1,20 +1,16 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm, userlogin
-from django.contrib.auth import authenticate, login ,logout
+from .forms import UserForm,userlogin
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from posts.models import *
+from posts.models import Personal_Profile,Posts, Add_Story
 
-
-
-
+@login_required(login_url='login')
 def home(request):
-    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
+    profiles = Personal_Profile.objects.filter(user=request.user).order_by('-created_at')
     posts = Posts.objects.all().order_by('-created_at')
     stories = Add_Story.objects.all().order_by('-created_at')
-    return render(request, "users/home.html" , {'posts':posts,'stories':stories,'profiles':profiles})
-
-
+    return render(request, "users/home.html", {'posts': posts, 'stories': stories, 'profiles': profiles})
 
 def userslogin(request):
     login_form = userlogin()
@@ -27,7 +23,6 @@ def userslogin(request):
                 username = login_form.cleaned_data['username']
                 password = login_form.cleaned_data['password']
                 user = authenticate(request, username=username, password=password)
-            
                 if user is not None:
                     login(request, user)
                     return redirect('home')
@@ -50,8 +45,6 @@ def userslogin(request):
                 messages.error(request, "User not created. Please check the form for errors.")
 
     return render(request, 'users/credentials.html', {'login_form': login_form, 'signup_form': signup_form})
-
-
 
 def userlogout(request):
     logout(request)

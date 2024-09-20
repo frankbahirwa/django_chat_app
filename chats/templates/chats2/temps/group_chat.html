@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Chat</title>
+</head>
+<body>
+    <h1>{{ group.name }}</h1>
+    <div id="chat-window">
+        {% for message in messages %}
+            <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+        {% endfor %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="content"></textarea>
+        <button type="submit">Send</button>
+    </form>
+    <a href="{% url 'add_member' group.id %}">Add Member</a>
+</body>
+</html>
