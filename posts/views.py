@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 
+
 # Create your views here.
 @login_required(login_url='login')
 def add_post(request):
@@ -17,8 +18,9 @@ def add_post(request):
         
     else:
         form = PostsForm()
+        profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')[:1]
         posts = Posts.objects.all().order_by('created_at')
-    return render(request , 'posts/add-post.html' , {'form' : form , 'posts': posts})
+    return render(request , 'posts/add-post.html' , {'form' : form , 'posts': posts , 'profiles':profiles})
 
 def post_details(request, id):
     post = get_object_or_404(Posts, id=id)

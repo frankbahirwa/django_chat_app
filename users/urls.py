@@ -5,4 +5,5 @@ urlpatterns = [
     path('', userslogin , name='login'),
     path('home/', home , name='home'),
     path('logout/', userlogout , name='logout'),
+    path('profile/' , profile , name='profile'),
 ]

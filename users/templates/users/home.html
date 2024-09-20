@@ -9,7 +9,7 @@
     <title>Vime</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-    <link rel="stylesheet" href="{% static 'homes.css' %}">
+    <link rel="stylesheet" href="{% static 'Home.css' %}">
 </head>
 <body>
     <header>
@@ -19,8 +19,12 @@
         </div>
         <div class="user">
             <div class="user-details">
-                {% if profiles.image %}
-                <a href="#"><span><img style="width:1.2cm;height:1.2cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br><br>
+                {% if profiles == user.username %}
+                {% for profile in profiles %}
+                <a href="#"><span><img style="width:1.2cm;height:1.2cm;border-radius:50%;" src="{{ profile.image.url }}" alt="{{ profile.caption }}"></span></a><br><br>
+
+                {% endfor %}
+
                 {% else %}
                 <a href="#"><span ><i class="fas fa-user-circle"></i></span></a><br><br>
                 {% endif %}
@@ -47,7 +51,7 @@
             <a href="{% url "home" %}" class="active"> <span class="material-symbols-outlined">
                 home
                 </span></a> <br><br>
-            <a href="{% url "inbox" %}"><span class="material-symbols-outlined">
+            <a href="{% url "chat" user.username %}"><span class="material-symbols-outlined">
                 maps_ugc
                 </span></a><br><br>
             <a href="#"><span class="material-symbols-outlined">
@@ -56,8 +60,11 @@
         </div>
         <div class="logout">
 
-            {% if profiles.image %}
-            <a href="{% url 'profile' %}"><span><img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profiles.image.url }}" alt="{{ profile.caption }}"></span></a><br>
+            {% if profiles == user.username %}
+            {% for profile in profiles %}
+            <a href="{% url 'profile' %}"><span><img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profile.image.url }}" alt="{{ profile.caption }}"></span></a><br>
+
+            {% endfor %}
 
             {% else %}
             <a href="{% url 'profile' %}"><span class="material-symbols-outlined" style="font-size: 30px;">
@@ -65,7 +72,11 @@
                 </span></a>
             {% endif %}
 
+<<<<<<< HEAD
         <a href="{% url "logout" %}"><span class="material-symbols-outlined" style="font-size: 30px;">
+=======
+         <a href="{% url "logout" %}"><span class="material-symbols-outlined">
+>>>>>>> 01ab856dca0a6d2584bff56caa1164402dbdc8ec
             logout
             </span></a>
     </div>
@@ -108,9 +119,24 @@
                 <div class="twitter-post">
                     <div class="header">
 
-                        <div class="user-who-posted">
-                            <span><i class="fas fa-user-circle"></i></span>
-                        </div>              
+                        
+                        {% for profile in profiles %}
+                        {% if profile.user.username == profile.user.username %}
+                            <a href="{% url 'profile' %}">
+                                <span>
+                                    <img style="width:1cm;height:1cm;border-radius:50%;" src="{{ profile.image.url }}" alt="{{ profile.caption }}">
+                                </span>
+                            </a><br>
+                        {% else %}
+                            <a href="{% url 'profile' %}">
+                                <span class="material-symbols-outlined">
+                                    account_circle
+                                </span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                    
+                                              
 
                         <div class="user-info" >
                             <div class="username">{{ post.user }}</div>
@@ -119,7 +145,9 @@
                     </div>
 
                     <div class="content">
-                        <div class="quoted-tweet">     
+                        <h4>{{post.title}}</h4>
+                        <div class="quoted-tweet"> 
+                                
                             <div class="quoted-content">
                                 <p>{{post.content}}</p>
                                 {% if post.image %}

@@ -3,6 +3,7 @@ from .forms import UserForm,userlogin
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+<<<<<<< HEAD
 from posts.models import Personal_Profile,Posts, Add_Story
 
 @login_required(login_url='login')
@@ -11,13 +12,31 @@ def home(request):
     posts = Posts.objects.all().order_by('-created_at')
     stories = Add_Story.objects.all().order_by('-created_at')
     return render(request, "users/home.html", {'posts': posts, 'stories': stories, 'profiles': profiles})
+=======
+from posts.models import *
+
+
+
+@login_required(login_url='login')
+def home(request):
+    profiles = Personal_Profile.objects.all().order_by('-created_at')
+    posts = Posts.objects.all().order_by('-created_at')
+    stories = Add_Story.objects.all().order_by('-created_at')
+    return render(request, "users/home.html" , {'posts':posts,'stories':stories,'profiles':profiles})
+
+
+def profile(request):
+    return render(request ,"users/profile.html" )
+
+
+>>>>>>> 01ab856dca0a6d2584bff56caa1164402dbdc8ec
 
 def userslogin(request):
     login_form = userlogin()
     signup_form = UserForm()
     
     if request.method == 'POST':
-        if 'login' in request.POST:
+        if 'login' in request.POST: 
             login_form = userlogin(request.POST)
             if login_form.is_valid():
                 username = login_form.cleaned_data['username']
