@@ -7,19 +7,8 @@ from .models import *
 from  posts.models import *
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-<<<<<<< HEAD
-from django.conf import settings
-
-@login_required
-def inboxx(request):
-    profiles = Personal_Profile.objects.filter(user = request.user).order_by('-created_at')
-    users = User.objects.all().reverse()
-    # received_messages =
-    return render(request, 'chats/inbox.html', {'users': users,'perofiles':profiles})
-=======
 
 
->>>>>>> 01ab856dca0a6d2584bff56caa1164402dbdc8ec
 
 @login_required
 def chatView(request, username):
